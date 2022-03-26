@@ -1,0 +1,12 @@
+<div class="task">
+  <div
+    class="text"
+    [className]="todo.is_completed ? 'task--completed' : ''"
+    (dblclick)="openTask()">
+    {{ todo.text }}
+  </div>
+  <mat-checkbox
+    [checked]="todo.is_completed"
+    (change)="onCheck(todo, $event.checked)"
+  ></mat-checkbox>
+</div>

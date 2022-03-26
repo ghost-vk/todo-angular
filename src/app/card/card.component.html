@@ -1,0 +1,38 @@
+<mat-card class="relative">
+  <mat-card-title class="title">{{ project.title }}</mat-card-title>
+
+  <div class="toolbox">
+    <button class="quiet" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onAddTask()">
+        Добавить задачу
+      </button>
+
+<!--      <button mat-menu-item (click)="onEditProject()">-->
+<!--        Изменить-->
+<!--      </button>-->
+
+      <button mat-menu-item (click)="onDeleteProject(project.id)">
+        Удалить
+      </button>
+    </mat-menu>
+  </div>
+
+  <hr>
+
+  <mat-card-content class="list">
+    <div *ngIf="project.todos.length > 0; else noTodos">
+      <app-task
+        *ngFor="let todo of project.todos"
+        [todo]="todo"
+        (check)="onCheckTodo($event)"
+      ></app-task>
+    </div>
+    <ng-template #noTodos>
+      <div class="quiet">Нет задач в этом проекте</div>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

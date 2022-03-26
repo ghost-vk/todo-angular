@@ -1,0 +1,20 @@
+<mat-dialog-content>
+
+  <app-form-task
+    *ngIf="data.dialog.type === 'task'"
+    [data]="data.dialog.task || null"
+    [projects]="data.projects || []"
+    (closeDialog)="onClose()"
+    (newTask)="addTask($event)"
+  >
+  </app-form-task>
+
+  <app-form-project
+    *ngIf="data.dialog.type === 'project'"
+    [projects]="data.projects || []"
+    (closeDialog)="onClose()"
+    (newProject)="addProject($event)"
+  >
+  </app-form-project>
+
+</mat-dialog-content>

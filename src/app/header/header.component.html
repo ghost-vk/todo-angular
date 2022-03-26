@@ -1,0 +1,23 @@
+<header class="header">
+  <mat-toolbar color="primary">
+    <span>Задачи</span>
+
+    <span class="example-spacer"></span>
+
+    <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
+      <mat-icon>add_box</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="addTask()">
+        <mat-icon>task_alt</mat-icon>
+        <span>Задача</span>
+      </button>
+
+      <button mat-menu-item (click)="addProject()">
+        <mat-icon>folder</mat-icon>
+        <span>Проект</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+</header>

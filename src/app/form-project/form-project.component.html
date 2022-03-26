@@ -1,0 +1,17 @@
+<div class="card">
+  <h4 class="title">Новый проект</h4>
+
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+    <div class="fields">
+      <mat-form-field appearance="outline" color="accent" class="w-full">
+        <mat-label>Название</mat-label>
+        <input matInput formControlName="title">
+      </mat-form-field>
+    </div>
+
+    <div class="buttons">
+      <button class="w50" mat-button (click)="onClose()">Закрыть</button>
+      <button class="w50 text-white" mat-flat-button color="accent">Создать</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,40 @@
+@import '~@angular/material/theming';
+@include mat-core();
+@import "./../theme";
+
+.app {
+  min-height: 100vh;
+}
+
+.bg-primary {
+  background-color: mat-color($my-app-primary);
+}
+
+.main {
+  margin: 0 auto;
+  padding: 0 0.5rem;
+
+  @media (min-width: 1260px) {
+    max-width: 1200px;
+    min-width: 1200px;
+  }
+}
+
+.card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  margin: 0 .5rem 1.5rem .5rem;
+  flex-basis: 100%;
+
+  @media (min-width: 768px) {
+    flex-basis: calc(50% - 1rem);
+    max-width: 400px;
+  }
+
+  @media (min-width: 1260px) {
+    flex-basis: calc(33% - 1rem);
+  }
+}

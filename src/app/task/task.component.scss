@@ -1,0 +1,14 @@
+.task {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: .5rem;
+
+  &--completed {
+    text-decoration: line-through;
+  }
+}
+
+.text {
+  width: calc(100% - 20px);
+  cursor: pointer;
+}

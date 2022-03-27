@@ -22,6 +22,8 @@ export class FormTaskComponent implements OnInit {
 
   taskForm: FormGroup
 
+  isDeleteBoxVisible: boolean
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -32,6 +34,8 @@ export class FormTaskComponent implements OnInit {
         project_id: this.projects[0].value,
         is_completed: false
       }
+
+      this.isDeleteBoxVisible = false
     }
 
     const config:ControlsConfig = {
@@ -41,17 +45,13 @@ export class FormTaskComponent implements OnInit {
 
     if (this.data?.type === 'update') {
       config.deleteCheck = false
+
+      this.isDeleteBoxVisible = true
     }
 
     this.taskForm = this.fb.group(config)
 
-    this.taskForm.valueChanges.subscribe(values => {
-      this.validate(values)
-
-      if (Object.keys(config).includes('deleteCheck') && this.data) {
-        this.data.type = 'delete'
-      }
-    })
+    this.taskForm.valueChanges.subscribe(values => this.validate(values))
   }
 
   @Output() closeDialog = new EventEmitter<null>()
@@ -71,11 +71,17 @@ export class FormTaskComponent implements OnInit {
   onSubmit() {
     if (!this.validate(this.taskForm.value)) return
 
+    const actionType = this.taskForm.value.deleteCheck
+      ? 'delete'
+      : this.data?.type || 'create'
+
+    const isCompleted = this.data?.is_completed || false
+
     const taskValues:TaskValues = {
-      type: this.data?.type || 'create',
+      type: actionType,
       text: this.taskForm.value.text,
       project_id: this.taskForm.value.project_id,
-      is_completed: false,
+      is_completed: isCompleted,
     }
 
     if (this.data?.id) {

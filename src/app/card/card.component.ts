@@ -69,7 +69,7 @@ export class CardComponent {
         project_id: this.project.id,
         text: todo.text,
         id: todo.id,
-        is_completed: false
+        is_completed: todo.is_completed
       }
     })
   }

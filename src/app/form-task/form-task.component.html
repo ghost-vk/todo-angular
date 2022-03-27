@@ -19,6 +19,7 @@
       </mat-form-field>
 
       <mat-checkbox
+        *ngIf="isDeleteBoxVisible"
         formControlName="deleteCheck"
         color="accent"
       >

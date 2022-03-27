@@ -26,6 +26,10 @@ export class Project {
     this.todos = this.todos.map(t => t.id !== todo.id ? t : todo)
   }
 
+  deleteTodo(todoId: number) {
+    this.todos = this.todos.filter(t => t.id !== todoId)
+  }
+
   set title(title: string) {
     this._title = title
   }

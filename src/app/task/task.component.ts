@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core'
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core'
 import { Todo } from "../interfaces/todo";
 
 @Component({
@@ -6,7 +6,13 @@ import { Todo } from "../interfaces/todo";
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss']
 })
-export class TaskComponent {
+export class TaskComponent implements OnInit {
+  isEditBtnVisible: boolean
+
+  ngOnInit() {
+    this.isEditBtnVisible = false
+  }
+
   @Input() public todo: Todo
 
   openTask() {
@@ -17,5 +23,11 @@ export class TaskComponent {
 
   onCheck(todo: Todo, checked: boolean) {
     this.check.emit({ ...todo, is_completed: checked })
+  }
+
+  @Output() public update = new EventEmitter<Todo>()
+
+  onUpdateTodo() {
+    this.update.emit(this.todo)
   }
 }

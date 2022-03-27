@@ -3,7 +3,7 @@ import { ProjectValues } from "./project-values";
 
 export type DialogType = 'task' | 'project'
 
-export type CrudActionType = 'create' | 'update'
+export type CrudActionType = 'create' | 'update' | 'delete'
 
 export interface Dialog {
   type: DialogType,

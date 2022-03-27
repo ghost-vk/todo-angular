@@ -9,10 +9,11 @@
         *ngFor="let project of projects"
         class="card"
         [project]="project"
-        (updateTodo)="onUpdateTodo($event)"
+        (updateTodo)="onCheckTodo($event)"
         (deleteProject)="deleteProject($event)"
         (addTask)="openDialog($event)"
         (editProject)="openDialog($event)"
+        (updateTask)="openDialog($event)"
         ></app-card>
     </div>
   </div>

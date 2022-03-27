@@ -1,9 +1,10 @@
 import { Component, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { TodoRequestNew } from "../interfaces/todo-request-new";
+
 import { ProjectValues } from "../interfaces/project-values";
 import { Dialog } from "../interfaces/dialog";
 import { ProjectOption } from "../interfaces/project-option";
+import { TaskValues } from "../interfaces/task-values";
 
 export interface DialogWithProjects {
   dialog: Dialog,
@@ -20,10 +21,10 @@ export class DialogComponent {
   constructor(private dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogWithProjects) { }
 
   onClose() {
-    this.dialogRef.close()
+    this.dialogRef.close(null)
   }
 
-  addTask($event: TodoRequestNew) {
+  addTask($event: TaskValues) {
     this.dialogRef.close({ task: $event })
   }
 

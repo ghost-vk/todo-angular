@@ -38,8 +38,10 @@ export class CardComponent {
     this.addTask.emit({
       type: 'task',
       task: {
-        value: '',
-        project: this.project.id
+        type: 'create',
+        text: '',
+        project_id: this.project.id,
+        is_completed: false
       }
     })
   }
@@ -53,6 +55,21 @@ export class CardComponent {
         title: this.project.title,
         type: 'update',
         id: this.project.id
+      }
+    })
+  }
+
+  @Output() updateTask = new EventEmitter<Dialog>()
+
+  onUpdateTodo(todo: Todo) {
+    this.updateTask.emit({
+      type: 'task',
+      task: {
+        type: 'update',
+        project_id: this.project.id,
+        text: todo.text,
+        id: todo.id,
+        is_completed: false
       }
     })
   }

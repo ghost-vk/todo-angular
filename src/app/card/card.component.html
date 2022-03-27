@@ -29,6 +29,7 @@
         *ngFor="let todo of project.todos"
         [todo]="todo"
         (check)="onCheckTodo($event)"
+        (update)="onUpdateTodo($event)"
       ></app-task>
     </div>
     <ng-template #noTodos>

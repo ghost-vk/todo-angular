@@ -7,11 +7,13 @@ import { TodoInProject } from "./card/card.component";
 import { Project } from './models/project'
 import { plainToClass } from "class-transformer";
 import { ProjectService } from "./services/project.service";
-import { TodoRequestNew } from "./interfaces/todo-request-new";
 import { Todo } from "./interfaces/todo";
 import { ProjectOption } from "./interfaces/project-option";
 import { ProjectValues } from "./interfaces/project-values";
 import { Dialog } from "./interfaces/dialog";
+import { TaskValues } from "./interfaces/task-values";
+import {DialogResult} from "./interfaces/dialog-result";
+import {TodoResponse} from "./interfaces/todo-response";
 
 @Component({
   selector: 'app-root',
@@ -52,39 +54,68 @@ export class AppComponent implements OnInit {
       }
     })
 
-    this.dialogRef.afterClosed().subscribe((data: any) => {
-      const task:TodoRequestNew = data.task
-      const project:ProjectValues = data.project
+    this.dialogRef.afterClosed().subscribe((data: DialogResult | null) => {
+      if (!data) return
 
-      if (task) {
+      if (data.task) {
         this.projects.forEach(project => {
-          if (project.id === task.project_id) {
-            this.projectService.addTodo(task)
-              .subscribe(task => {
-                const projectTask:Todo = {
-                  text: task.text,
-                  id: task.id,
-                  is_completed: task.is_completed || false
-                }
+          if (project.id === data.task?.project_id) {
 
-                project.todos.push(projectTask)
-              })
+            if (data.task.type === 'create') {
+              this.projectService.addTodo(data.task)
+                .subscribe(task => {
+                  const projectTask:Todo = {
+                    text: task.text,
+                    id: task.id,
+                    is_completed: task.is_completed || false
+                  }
+
+                  project.todos.push(projectTask)
+                })
+            } else if (data.task.type === 'update') {
+              const todoId = Number(data.task.id)
+
+              const todo: Todo = {
+                text: data.task.text,
+                id: todoId,
+                is_completed: data.task.is_completed
+              }
+
+              this.projectService.updateTodo(data.task.project_id, todo)
+                .subscribe((updatedTodo: TodoResponse) => {
+                  const res:Todo = {
+                    text: updatedTodo.text,
+                    id: updatedTodo.id,
+                    is_completed: updatedTodo.is_completed || false
+                  }
+
+                  project.updateTodo(res)
+                })
+            } else if (data.task.type ==='delete') {
+              const todoId = Number(data.task.id)
+
+              this.projectService.deleteTodo(data.task.project_id, todoId)
+                .subscribe((isDeleted: boolean) => {
+                  if (isDeleted) project.deleteTodo(todoId)
+                })
+            }
+
           }
         })
-      } else if (project) {
-        if (project.type === 'create') {
-          this.projectService.newProject(project)
+      } else if (data.project) {
+        if (data.project.type === 'create') {
+          this.projectService.newProject(data.project)
             .subscribe((newProjectPlain: Project) => {
               const newProject = plainToClass(Project, newProjectPlain)
               this.projects.push(newProject)
               this.mapProjectOptions()
             })
-        } else if (project.type === 'update') {
-          const id = Number(project.id)
+        } else if (data.project.type === 'update') {
+          const id = Number(data.project.id)
 
           if (!(id > 0)) return // todo error
 
-          this.projectService.editProject(id, project.title)
+          this.projectService.editProject(id, data.project.title)
             .subscribe((updated: Project) => {
               const project = this.projects.find(p => p.id === updated.id)
 
@@ -95,9 +126,7 @@ export class AppComponent implements OnInit {
     })
   }
 
-  onUpdateTodo(data: TodoInProject) {
-    if (this.projects.length === 0) return
-
+  onCheckTodo(data: TodoInProject) {
     const project = this.projects.find(p => p.id === data.projectId)
 
     if (project) {

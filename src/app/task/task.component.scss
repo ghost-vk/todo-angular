@@ -2,13 +2,37 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: .5rem;
+  padding-left: 1rem;
+  position: relative;
 
   &--completed {
     text-decoration: line-through;
+  }
+
+  &:hover {
+    .edit-btn {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 }
 
 .text {
   width: calc(100% - 20px);
   cursor: pointer;
+}
+
+.edit-btn {
+  position: absolute;
+  transform: translateY(-50%);
+  top:50%;
+  left: -1.2rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .15s ease;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
 }

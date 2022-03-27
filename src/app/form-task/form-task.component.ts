@@ -1,13 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from "@angular/forms";
-import { TodoRequestNew } from "../interfaces/todo-request-new";
 import { ProjectOption } from "../interfaces/project-option";
 import { TaskValues } from "../interfaces/task-values";
 
-type TaskFormErrors = {
+type ControlsConfig = {
   text: string,
-  project: string
+  project_id: number,
+  deleteCheck?: boolean
 }
+
 @Component({
   selector: 'app-form-task',
   templateUrl: './form-task.component.html',
@@ -19,8 +20,6 @@ export class FormTaskComponent implements OnInit {
 
   @Input() data: TaskValues | null
 
-  public errors: TaskFormErrors
-
   taskForm: FormGroup
 
   constructor(private fb: FormBuilder) { }
@@ -28,63 +27,61 @@ export class FormTaskComponent implements OnInit {
   ngOnInit(): void {
     if (!this.data) {
       this.data = {
-        value: '',
-        project: this.projects[0].value
+        type: 'create',
+        text: '',
+        project_id: this.projects[0].value,
+        is_completed: false
       }
     }
 
-    this.taskForm = this.fb.group({
-      text: this.data.value  || '',
-      project_id: this.data.project || this.projects[0].value
-    })
+    const config:ControlsConfig = {
+      text: this.data.text,
+      project_id: this.data.project_id,
+    }
+
+    if (this.data?.type === 'update') {
+      config.deleteCheck = false
+    }
+
+    this.taskForm = this.fb.group(config)
 
     this.taskForm.valueChanges.subscribe(values => {
       this.validate(values)
-    })
 
-    this.errors = {
-      project: '',
-      text: ''
-    }
+      if (Object.keys(config).includes('deleteCheck') && this.data) {
+        this.data.type = 'delete'
+      }
+    })
   }
 
-  @Output() closeDialog = new EventEmitter()
+  @Output() closeDialog = new EventEmitter<null>()
 
   onClose() {
-    this.closeDialog.emit(true)
+    this.closeDialog.emit(null)
   }
 
-  validate(values: TodoRequestNew): boolean {
-    if (!values.text || values.text.length < 3) {
-      this.errors.text = 'Введите задачу'
-    } else {
-      this.errors.text = ''
-    }
+  validate(values: TaskValues): boolean {
+    if (!values.text || values.text.length < 3) return false
 
-    if (!this.projects.map(p => p.value).includes(values.project_id)) {
-      this.errors.project = 'Выберите существующий проект'
-    } else {
-      this.errors.project = ''
-    }
-
-    const isError = !(this.errors.text || this.errors.project)
-
-    return isError
+    return this.projects.map(p => p.value).includes(values.project_id);
   }
 
-  @Output() newTask = new EventEmitter<TodoRequestNew>()
+  @Output() newTask = new EventEmitter<TaskValues>()
 
   onSubmit() {
-    if (!this.validate(this.taskForm.value)) {
-      return
-    }
+    if (!this.validate(this.taskForm.value)) return
 
-    const task:TodoRequestNew = {
+    const taskValues:TaskValues = {
+      type: this.data?.type || 'create',
       text: this.taskForm.value.text,
       project_id: this.taskForm.value.project_id,
-      is_completed: false
+      is_completed: false,
     }
 
-    this.newTask.emit(task)
+    if (this.data?.id) {
+      taskValues.id = this.data.id
+    }
+
+    this.newTask.emit(taskValues)
   }
 }

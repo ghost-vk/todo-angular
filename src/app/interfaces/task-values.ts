@@ -1,4 +1,9 @@
+import { CrudActionType } from "./dialog";
+
 export interface TaskValues {
-  value: string,
-  project: number
+  type: CrudActionType,
+  text: string,
+  is_completed: boolean,
+  project_id: number,
+  id?: number
 }

@@ -1,6 +1,5 @@
 <div class="card">
-  <h4 class="title">Новая задача</h4>
-
+  <h4 class="title">{{ data?.type === 'create' ? 'Новая задача' : 'Задача' }}</h4>
 
   <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
     <div class="fields">
@@ -17,14 +16,21 @@
             {{ project.viewValue }}
           </mat-option>
         </mat-select>
-
-        <mat-error *ngIf="errors.project">{{ errors.project }}</mat-error>
       </mat-form-field>
+
+      <mat-checkbox
+        formControlName="deleteCheck"
+        color="accent"
+      >
+        Удалить задачу
+      </mat-checkbox>
     </div>
 
     <div class="buttons">
-      <button class="w50" mat-button (click)="onClose()">Закрыть</button>
-      <button class="w50 text-white" type="submit" mat-flat-button color="accent">Создать</button>
+      <button class="w50" mat-button type="button" (click)="onClose()">Закрыть</button>
+      <button class="w50 text-white" type="submit" mat-flat-button color="accent">
+        {{ data?.type === 'create' ? 'Создать' : 'ОК' }}
+      </button>
     </div>
   </form>
 </div>

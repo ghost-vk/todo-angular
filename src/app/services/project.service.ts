@@ -4,11 +4,10 @@ import { map, Observable } from "rxjs";
 import { environment } from 'src/environments/environment';
 
 import { Project } from "../models/project";
-
-import { TodoRequestNew } from "../interfaces/todo-request-new";
 import { Todo } from "../interfaces/todo";
 import { TodoResponse } from "../interfaces/todo-response";
 import { ProjectValues } from "../interfaces/project-values";
+import { TaskValues } from "../interfaces/task-values";
 
 const BASE_URL = environment.production
   ? 'https://todo-oblako-group.herokuapp.com'
@@ -25,7 +24,7 @@ export class ProjectService {
     return this.httpClient.get<Project[]>(`${BASE_URL}/projects`)
   }
 
-  addTodo(todo: TodoRequestNew): Observable<TodoResponse> {
+  addTodo(todo: TaskValues): Observable<TodoResponse> {
     return this.httpClient.post<TodoResponse>(`${BASE_URL}/todos`, todo)
   }
 
@@ -34,6 +33,12 @@ export class ProjectService {
       `${BASE_URL}/projects/${projectId}/todos/${todo.id}`,
       todo
     )
+  }
+
+  deleteTodo(projectId: number, todoId: number):Observable<boolean> {
+    return this.httpClient.delete<null>(
+      `${BASE_URL}/projects/${projectId}/todos/${todoId}`
+    ).pipe(map(res => res === null))
   }
 
   newProject(data: ProjectValues): Observable<Project> {

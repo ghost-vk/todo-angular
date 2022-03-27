@@ -18,12 +18,18 @@ export class FormProjectComponent implements OnInit {
 
   formTitle: string
 
+  actionButtonText: string
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.formTitle = this.data && this.data?.type === 'update'
       ? 'Редактировать проект'
       : 'Новый проект'
+
+    this.actionButtonText = this.data && this.data?.type === 'update'
+      ? 'Обновить'
+      : 'Создать'
 
     this.projectForm = this.fb.group({
       title: this.data?.title || ''

@@ -1,7 +1,7 @@
 import { Component, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { TodoRequestNew } from "../interfaces/todo-request-new";
-import { ProjectRequestNew } from "../interfaces/project-request-new";
+import { ProjectValues } from "../interfaces/project-values";
 import { Dialog } from "../interfaces/dialog";
 import { ProjectOption } from "../interfaces/project-option";
 
@@ -27,7 +27,7 @@ export class DialogComponent {
     this.dialogRef.close({ task: $event })
   }
 
-  addProject($event: ProjectRequestNew) {
+  onProjectAction($event: ProjectValues) {
     this.dialogRef.close({ project: $event })
   }
 }

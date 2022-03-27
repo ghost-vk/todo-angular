@@ -11,7 +11,7 @@ export interface IProject {
 export class Project {
   constructor(
     public id: number,
-    public title: string,
+    public _title: string,
     public todos: Todo[]
   ) { }
 
@@ -24,6 +24,14 @@ export class Project {
 
   updateTodo(todo: Todo) {
     this.todos = this.todos.map(t => t.id !== todo.id ? t : todo)
+  }
+
+  set title(title: string) {
+    this._title = title
+  }
+
+  get title(): string {
+    return this._title
   }
 }
 

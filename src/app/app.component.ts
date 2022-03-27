@@ -10,7 +10,7 @@ import { ProjectService } from "./services/project.service";
 import { TodoRequestNew } from "./interfaces/todo-request-new";
 import { Todo } from "./interfaces/todo";
 import { ProjectOption } from "./interfaces/project-option";
-import { ProjectRequestNew } from "./interfaces/project-request-new";
+import { ProjectValues } from "./interfaces/project-values";
 import { Dialog } from "./interfaces/dialog";
 
 @Component({
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
 
     this.dialogRef.afterClosed().subscribe((data: any) => {
       const task:TodoRequestNew = data.task
-      const project:ProjectRequestNew = data.project
+      const project:ProjectValues = data.project
 
       if (task) {
         this.projects.forEach(project => {
@@ -72,12 +72,25 @@ export class AppComponent implements OnInit {
           }
         })
       } else if (project) {
-        this.projectService.newProject(project)
-          .subscribe((newProjectPlain: Project) => {
-            const newProject = plainToClass(Project, newProjectPlain)
-            this.projects.push(newProject)
-            this.mapProjectOptions()
-          })
+        if (project.type === 'create') {
+          this.projectService.newProject(project)
+            .subscribe((newProjectPlain: Project) => {
+              const newProject = plainToClass(Project, newProjectPlain)
+              this.projects.push(newProject)
+              this.mapProjectOptions()
+            })
+        } else if (project.type === 'update') {
+          const id = Number(project.id)
+
+          if (!(id > 0)) return // todo error
+
+          this.projectService.editProject(id, project.title)
+            .subscribe((updated: Project) => {
+              const project = this.projects.find(p => p.id === updated.id)
+
+              if (project) project.title = updated.title
+            })
+        }
       }
     })
   }

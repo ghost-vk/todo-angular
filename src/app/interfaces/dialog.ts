@@ -1,10 +1,12 @@
 import { TaskValues } from "./task-values";
-import { ProjectRequestNew } from "./project-request-new";
+import { ProjectValues } from "./project-values";
 
 export type DialogType = 'task' | 'project'
+
+export type CrudActionType = 'create' | 'update'
 
 export interface Dialog {
   type: DialogType,
   task?: TaskValues,
-  project?: ProjectRequestNew
+  project?: ProjectValues
 }

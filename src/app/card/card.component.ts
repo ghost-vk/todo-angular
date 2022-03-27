@@ -50,7 +50,9 @@ export class CardComponent {
     this.editProject.emit({
       type: 'project',
       project: {
-        title: this.project.title
+        title: this.project.title,
+        type: 'update',
+        id: this.project.id
       }
     })
   }

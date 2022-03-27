@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ProjectOption } from "../interfaces/project-option";
-import {ProjectRequestNew} from "../interfaces/project-request-new";
+import { ProjectValues } from "../interfaces/project-values";
 
 @Component({
   selector: 'app-form-project',
@@ -12,13 +12,21 @@ export class FormProjectComponent implements OnInit {
 
   @Input() projects: ProjectOption[] | []
 
+  @Input() data: ProjectValues | null
+
   projectForm: FormGroup
+
+  formTitle: string
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.formTitle = this.data && this.data?.type === 'update'
+      ? 'Редактировать проект'
+      : 'Новый проект'
+
     this.projectForm = this.fb.group({
-      title: ''
+      title: this.data?.title || ''
     })
   }
 
@@ -28,7 +36,7 @@ export class FormProjectComponent implements OnInit {
     this.closeDialog.emit(true)
   }
 
-  @Output() public newProject = new EventEmitter<ProjectRequestNew>()
+  @Output() public projectAction = new EventEmitter<ProjectValues>()
 
   onSubmit() {
     if (!this.projectForm.value.title) return
@@ -44,8 +52,15 @@ export class FormProjectComponent implements OnInit {
       // todo Error: project already exist
     }
 
-    this.newProject.emit({
-      title: this.projectForm.value.title
-    })
+    const toEmit:ProjectValues = {
+      title: this.projectForm.value.title,
+      type: this.data?.type ? this.data.type : 'create'
+    }
+
+    if (this.data?.id) {
+      toEmit.id = this.data?.id
+    }
+
+    this.projectAction.emit(toEmit)
   }
 }

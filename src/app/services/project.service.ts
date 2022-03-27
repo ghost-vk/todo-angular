@@ -8,7 +8,7 @@ import { Project } from "../models/project";
 import { TodoRequestNew } from "../interfaces/todo-request-new";
 import { Todo } from "../interfaces/todo";
 import { TodoResponse } from "../interfaces/todo-response";
-import { ProjectRequestNew } from "../interfaces/project-request-new";
+import { ProjectValues } from "../interfaces/project-values";
 
 const BASE_URL = environment.production
   ? 'https://todo-oblako-group.herokuapp.com'
@@ -36,7 +36,7 @@ export class ProjectService {
     )
   }
 
-  newProject(data: ProjectRequestNew): Observable<Project> {
+  newProject(data: ProjectValues): Observable<Project> {
     return this.httpClient.post<Project>(`${BASE_URL}/projects`, data)
   }
 
@@ -45,5 +45,12 @@ export class ProjectService {
       .pipe(
         map(res => res === null)
       )
+  }
+
+  editProject(id: number, title: string) {
+    return this.httpClient.patch<Project>(
+      `${BASE_URL}/projects/${id}`,
+      { title }
+    )
   }
 }

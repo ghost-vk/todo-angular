@@ -4,7 +4,7 @@ import { map, Observable } from "rxjs";
 import { environment } from 'src/environments/environment';
 
 import { Project } from "../models/project";
-import { Todo } from "../interfaces/todo";
+import { ITodo } from "../interfaces/todo";
 import { TodoResponse } from "../interfaces/todo-response";
 import { ProjectValues } from "../interfaces/project-values";
 import { TaskValues } from "../interfaces/task-values";
@@ -28,7 +28,7 @@ export class ProjectService {
     return this.httpClient.post<TodoResponse>(`${BASE_URL}/todos`, todo)
   }
 
-  updateTodo(projectId: number, todo: Todo): Observable<TodoResponse> {
+  updateTodo(projectId: number, todo: ITodo): Observable<TodoResponse> {
     return this.httpClient.patch<TodoResponse>(
       `${BASE_URL}/projects/${projectId}/todos/${todo.id}`,
       todo

@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 
-import { Todo } from "../interfaces/todo";
+import { ITodo } from "../interfaces/todo";
 import { Dialog } from "../interfaces/dialog";
 import { Project } from "../models/project";
 
 export type TodoInProject = {
   projectId: number,
-  todo: Todo
+  todo: ITodo
 }
 
 @Component({
@@ -19,7 +19,7 @@ export class CardComponent {
 
   @Output() public updateTodo = new EventEmitter<TodoInProject>()
 
-  onCheckTodo(todo: Todo) {
+  onCheckTodo(todo: ITodo) {
     this.updateTodo.emit({
       projectId: this.project.id,
       todo
@@ -61,7 +61,7 @@ export class CardComponent {
 
   @Output() updateTask = new EventEmitter<Dialog>()
 
-  onUpdateTodo(todo: Todo) {
+  onUpdateTodo(todo: ITodo) {
     this.updateTask.emit({
       type: 'task',
       task: {

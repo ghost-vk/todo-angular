@@ -1,18 +1,14 @@
-import { Todo } from '../interfaces/todo'
+import { ITodo } from '../interfaces/todo'
 import { ProjectOption } from "../interfaces/project-option";
-
-
-export interface IProject {
-  id: number,
-  title: string,
-  todos: Todo[]
-}
+import { plainToClass } from "class-transformer";
+import { Todo } from './todo'
 
 export class Project {
+  public todos: Todo[]
+
   constructor(
     public id: number,
     public _title: string,
-    public todos: Todo[]
   ) { }
 
   getOption(): ProjectOption {
@@ -22,9 +18,13 @@ export class Project {
     }
   }
 
-  updateTodo(todo: Todo) {
-    this.todos = this.todos.map(t => t.id !== todo.id ? t : todo)
+  fillTodos(todos: ITodo[]) {
+    this.todos = plainToClass(Todo, todos)
   }
+
+  // updateTodo(todo: ITodo) {
+  //   this.todos = this.todos.map(t => t.id !== todo.id ? t : todo)
+  // }
 
   deleteTodo(todoId: number) {
     this.todos = this.todos.filter(t => t.id !== todoId)

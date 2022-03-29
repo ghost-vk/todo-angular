@@ -25,9 +25,15 @@
 
   <mat-card-content class="list">
     <div *ngIf="project.todos.length > 0; else noTodos">
+<!--      <app-task-->
+<!--        *ngFor="let todo of project.todos"-->
+<!--        [todo]="todo"-->
+<!--        (check)="onCheckTodo($event)"-->
+<!--        (update)="onUpdateTodo($event)"-->
+<!--      ></app-task>-->
+
       <app-task
         *ngFor="let todo of project.todos"
-        [todo]="todo"
         (check)="onCheckTodo($event)"
         (update)="onUpdateTodo($event)"
       ></app-task>

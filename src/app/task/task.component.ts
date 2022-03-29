@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core'
-import { Todo } from "../interfaces/todo";
+import { ITodo } from "../interfaces/todo";
 
 @Component({
   selector: 'app-task',
@@ -13,19 +13,19 @@ export class TaskComponent implements OnInit {
     this.isEditBtnVisible = false
   }
 
-  @Input() public todo: Todo
+  @Input() public todo: ITodo
 
   openTask() {
     console.log('open task to edit')
   }
 
-  @Output() public check = new EventEmitter<Todo>()
+  @Output() public check = new EventEmitter<ITodo>()
 
-  onCheck(todo: Todo, checked: boolean) {
+  onCheck(todo: ITodo, checked: boolean) {
     this.check.emit({ ...todo, is_completed: checked })
   }
 
-  @Output() public update = new EventEmitter<Todo>()
+  @Output() public update = new EventEmitter<ITodo>()
 
   onUpdateTodo() {
     this.update.emit(this.todo)

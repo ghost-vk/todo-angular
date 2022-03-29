@@ -1,20 +1,22 @@
 <div class="app bg-primary">
-  <app-header
-    (dialogEvent)="openDialog($event)"
-  ></app-header>
+  <pre style="color:white">Values: {{ projects$ | async | json }}</pre>
 
-  <div class="main">
-    <div class="card-wrapper">
-      <app-card
-        *ngFor="let project of projects"
-        class="card"
-        [project]="project"
-        (updateTodo)="onCheckTodo($event)"
-        (deleteProject)="deleteProject($event)"
-        (addTask)="openDialog($event)"
-        (editProject)="openDialog($event)"
-        (updateTask)="openDialog($event)"
-        ></app-card>
-    </div>
-  </div>
+<!--  <app-header-->
+<!--    (dialogEvent)="openDialog($event)"-->
+<!--  ></app-header>-->
+
+<!--  <div class="main">-->
+<!--    <div class="card-wrapper">-->
+<!--      <app-card-->
+<!--        *ngFor="let project of projects"-->
+<!--        class="card"-->
+<!--        [project]="project"-->
+<!--        (updateTodo)="onCheckTodo($event)"-->
+<!--        (deleteProject)="deleteProject($event)"-->
+<!--        (addTask)="openDialog($event)"-->
+<!--        (editProject)="openDialog($event)"-->
+<!--        (updateTask)="openDialog($event)"-->
+<!--        ></app-card>-->
+<!--    </div>-->
+<!--  </div>-->
 </div>

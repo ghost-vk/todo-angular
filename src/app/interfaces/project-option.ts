@@ -1,4 +1,4 @@
-export interface ProjectOption {
+export interface IProjectOption {
   viewValue: string,
   value: number
 }

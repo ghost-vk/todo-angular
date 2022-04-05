@@ -1,33 +1,35 @@
-import { ITodo } from '../interfaces/todo'
-import { ProjectOption } from "../interfaces/project-option";
-import { plainToClass } from "class-transformer";
+import { IProjectOption } from "../interfaces/project-option";
+import { plainToInstance } from "class-transformer";
 import { Todo } from './todo'
 
 export class Project {
-  public todos: Todo[]
-
   constructor(
     public id: number,
     public _title: string,
+    public todos: Todo[]
   ) { }
 
-  getOption(): ProjectOption {
+  getOption(): IProjectOption {
     return {
       viewValue: this.title,
       value: this.id
     }
   }
 
-  fillTodos(todos: ITodo[]) {
-    this.todos = plainToClass(Todo, todos)
+  plainTodosToInstances() {
+    this.todos = plainToInstance(Todo, this.todos.map(todo => ({ todo })))
   }
 
-  // updateTodo(todo: ITodo) {
-  //   this.todos = this.todos.map(t => t.id !== todo.id ? t : todo)
-  // }
+  addTodo(todo: Todo) {
+    this.todos.push(todo)
+  }
 
   deleteTodo(todoId: number) {
     this.todos = this.todos.filter(t => t.id !== todoId)
+  }
+
+  updateTodo(newTodo: Todo) {
+    this.todos = this.todos.map(todo => todo.id !== newTodo.id ? todo : newTodo)
   }
 
   set title(title: string) {

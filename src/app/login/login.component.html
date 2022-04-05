@@ -1,0 +1,106 @@
+<div class="login">
+  <mat-card>
+    <mat-card-title class="title">
+      {{ formType === 'login' ? 'Вход' : 'Регистрация' }}
+    </mat-card-title>
+
+    <form
+      *ngIf="formType === 'login'; else registrationForm"
+      [formGroup]="loginForm"
+      (ngSubmit)="onLoginSubmit()"
+    >
+      <div class="fields">
+        <mat-form-field appearance="outline" color="accent" class="w-full">
+          <mat-label>Логин</mat-label>
+          <input matInput formControlName="login">
+          <mat-error *ngIf="getLoginError()">{{ getLoginError() }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" color="accent" class="w-full">
+          <mat-label>Пароль</mat-label>
+          <input matInput formControlName="password" type="password">
+          <mat-error *ngIf="getPasswordError()">{{ getPasswordError() }}</mat-error>
+        </mat-form-field>
+
+        <div *ngIf="formLoginError" class="form-error">{{ this.formLoginError }}</div>
+        <div *ngIf="formLoginSuccess" class="form-success">{{ this.formLoginSuccess }}</div>
+      </div>
+
+      <div class="buttons">
+        <button
+          class="w50"
+          mat-button
+          type="button"
+          (click)="swapFormType()"
+        >
+          Регистрация
+        </button>
+        <button
+          class="w50 text-white"
+          type="submit"
+          mat-flat-button
+          color="accent"
+          [disabled]="loginForm.invalid"
+        >
+          Войти
+        </button>
+      </div>
+    </form>
+
+    <ng-template #registrationForm>
+      <form [formGroup]="regForm" (ngSubmit)="onRegSubmit()">
+        <div class="fields">
+          <mat-form-field appearance="outline" color="accent" class="mb-1 w-full">
+            <mat-label>Придумайте логин</mat-label>
+            <input matInput formControlName="login">
+            <mat-hint>От 6 символов, можно использовать латинские символы, цифры</mat-hint>
+            <mat-error *ngIf="getRegLoginError()">{{ getRegLoginError() }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="accent" class="mb-1 w-full">
+            <mat-label>Придумайте пароль</mat-label>
+            <input matInput type="password" formControlName="password">
+            <mat-hint>От 8 символов, только латинские символы и цифры.</mat-hint>
+            <mat-error *ngIf="getRegPasswordError()">{{ getRegPasswordError() }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="accent" class="mb-1 w-full">
+            <mat-label>Повторите пароль</mat-label>
+            <input matInput type="password" formControlName="confirmPassword">
+            <mat-error *ngIf="getConfirmPasswordError()">{{ getConfirmPasswordError() }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" color="accent" class="mb-1 w-full">
+            <mat-label>Имя (необязательно)</mat-label>
+            <input matInput formControlName="userName">
+            <mat-error *ngIf="getNameError()">{{ getNameError() }}</mat-error>
+          </mat-form-field>
+
+          <div *ngIf="formRegError" class="form-error">{{ this.formRegError }}</div>
+          <div *ngIf="formRegSuccess" class="form-success">{{ this.formRegSuccess }}</div>
+        </div>
+
+        <div class="buttons">
+          <button
+            class="w50"
+            mat-button
+            type="button"
+            (click)="swapFormType()"
+          >
+            Войти
+          </button>
+          <button
+            class="w50 text-white"
+            type="submit"
+            mat-flat-button
+            color="accent"
+            [disabled]="regForm.invalid"
+          >
+            Готово
+          </button>
+        </div>
+      </form>
+    </ng-template>
+
+  </mat-card>
+</div>

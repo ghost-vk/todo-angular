@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 
+import { ProjectsService } from "../services/projects.service";
+import { Todo } from '../models/todo'
 import { ITodo } from "../interfaces/todo";
 import { Dialog } from "../interfaces/dialog";
 import { Project } from "../models/project";
@@ -15,26 +17,24 @@ export type TodoInProject = {
   styleUrls: ['./card.components.scss'],
 })
 export class CardComponent {
+
+  constructor(private projectsService: ProjectsService) { }
+
   @Input() public project: Project
 
-  @Output() public updateTodo = new EventEmitter<TodoInProject>()
-
   onCheckTodo(todo: ITodo) {
-    this.updateTodo.emit({
-      projectId: this.project.id,
-      todo
-    })
+    this.projectsService.updateTodo(this.project.id, todo)
   }
 
-  @Output() deleteProject = new EventEmitter<number>()
-
-  onDeleteProject(id: number) {
-    this.deleteProject.emit(id)
+  onDeleteProject() {
+    this.projectsService.deleteProject(this.project.id)
   }
 
   @Output() addTask = new EventEmitter<Dialog>()
 
   onAddTask() {
+    this.projectsService.todoAction = 'create'
+    this.projectsService.currentProjectId = this.project.id
     this.addTask.emit({
       type: 'task',
       task: {
@@ -49,6 +49,8 @@ export class CardComponent {
   @Output() editProject = new EventEmitter<Dialog>()
 
   onEditProject() {
+    this.projectsService.currentProjectId = this.project.id
+    this.projectsService.projectAction = 'update'
     this.editProject.emit({
       type: 'project',
       project: {
@@ -59,18 +61,17 @@ export class CardComponent {
     })
   }
 
-  @Output() updateTask = new EventEmitter<Dialog>()
+  @Output() updateTodo = new EventEmitter()
 
-  onUpdateTodo(todo: ITodo) {
-    this.updateTask.emit({
-      type: 'task',
-      task: {
-        type: 'update',
-        project_id: this.project.id,
-        text: todo.text,
-        id: todo.id,
-        is_completed: todo.is_completed
-      }
-    })
+  onUpdateTodo(todoId: number) {
+    this.projectsService.currentProjectId = this.project.id
+    this.projectsService.currentTodoId = todoId
+    this.projectsService.todoAction = 'update'
+
+    this.updateTodo.emit()
+  }
+
+  taskTrackBy(index: number, task: Todo) {
+    return task.id
   }
 }

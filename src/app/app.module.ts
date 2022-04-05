@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { HttpClientModule } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from "@angular/forms";
 
@@ -18,12 +18,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { TokenInterceptor } from "./utils/token-interceptor";
 import { HeaderComponent } from "./header/header.component";
 import { CardComponent } from "./card/card.component";
 import { TaskComponent } from "./task/task.component";
-import { DialogComponent } from "./dialog/dialog.component";
-import { FormProjectComponent } from './form-project/form-project.component';
-import { FormTaskComponent } from './form-task/form-task.component';
+import { DialogProjectComponent } from './dialog-project/dialog-project.component';
+import { DialogTodoComponent } from './dialog-todo/dialog-todo.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -31,9 +32,9 @@ import { FormTaskComponent } from './form-task/form-task.component';
     HeaderComponent,
     CardComponent,
     TaskComponent,
-    DialogComponent,
-    FormProjectComponent,
-    FormTaskComponent
+    DialogProjectComponent,
+    DialogTodoComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -53,8 +54,9 @@ import { FormTaskComponent } from './form-task/form-task.component';
     MatSnackBarModule,
     MatDialogModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
-  entryComponents: [DialogComponent]
 })
 export class AppModule {}

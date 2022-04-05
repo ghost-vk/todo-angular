@@ -1,4 +1,4 @@
-export interface TodoResponse {
+export interface ITodoResponse {
   id: number,
   text: string,
   is_completed: boolean,

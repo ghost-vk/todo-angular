@@ -1,0 +1,62 @@
+<div class="card">
+  <h4 class="title">{{ actionType === 'create' ? 'Новая задача' : 'Задача' }}</h4>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="fields">
+      <mat-form-field appearance="outline" color="accent" class="w-full">
+        <mat-label>Задача</mat-label>
+        <input matInput formControlName="text">
+        <mat-error *ngIf="hasError('text', 'required')">Поле обязательно к заполнению</mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+          *ngIf="actionType === 'create'"
+          appearance="outline"
+          color="accent"
+          class="w-full"
+      >
+        <mat-label>Проект</mat-label>
+
+        <mat-select formControlName="project_id">
+          <mat-option
+            *ngFor="let option of options$ | async; trackBy: optionsTrackBy"
+            [value]="option.value"
+          >
+            {{ option.viewValue }}
+          </mat-option>
+
+          <mat-option [value]="-1">
+            Новый проект
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="form.value.project_id === -1" appearance="outline" color="accent" class="w-full">
+        <mat-label>Название проекта</mat-label>
+        <input matInput formControlName="newProject">
+        <mat-error *ngIf="hasError('newProject', 'required')">Поле обязательно к заполнению</mat-error>
+      </mat-form-field>
+
+      <mat-checkbox
+        *ngIf="actionType !== 'create'"
+        formControlName="deleteCheck"
+        color="accent"
+      >
+        Удалить задачу
+      </mat-checkbox>
+
+      <div class="form-error">{{ this.formError }}</div>
+    </div>
+
+    <div class="buttons">
+      <button class="w50" mat-button type="button" (click)="onClose()">Закрыть</button>
+      <button
+        class="w50 text-white"
+        type="submit" mat-flat-button color="accent"
+        [disabled]="!isValid()"
+      >
+        {{ actionType === 'create' ? 'Создать' : 'ОК' }}
+      </button>
+    </div>
+  </form>
+</div>

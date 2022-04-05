@@ -12,11 +12,15 @@
 }
 
 .fields {
-  margin: 1.5rem 0 0.5rem 0;
+  margin: 1.5rem 0 1rem 0;
 }
 
 .w-full {
   width: 100%;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
 }
 
 .buttons {
@@ -39,4 +43,22 @@
 
 .text-white {
   color: #ece6e6;
+}
+
+.delete {
+  color: #e35252;
+  transition: color .2s ease;
+  text-decoration: underline;
+  cursor: pointer;
+  &:hover {
+    color: #b40909;
+  }
+}
+
+.form-error {
+  color: #b40909;
+}
+
+.form-success {
+  color: #3f9a2b;
 }

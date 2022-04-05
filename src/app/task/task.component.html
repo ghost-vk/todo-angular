@@ -1,8 +1,8 @@
 <div class="task">
+
   <div
     class="text"
-    [ngClass]="{ 'task--completed': todo.is_completed }"
-    (dblclick)="openTask()"
+    [ngClass]="{ 'task--completed': todo.isCompleted }"
     (click)="onUpdateTodo()"
     (touchstart)="isEditBtnVisible = true"
     (touchend)="isEditBtnVisible = false"
@@ -11,8 +11,8 @@
   </div>
 
   <mat-checkbox
-    [checked]="todo.is_completed"
-    (change)="onCheck(todo, $event.checked)"
+    [checked]="todo.isCompleted"
+    (change)="onCheck($event.checked)"
   ></mat-checkbox>
 
   <div

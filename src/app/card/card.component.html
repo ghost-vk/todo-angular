@@ -15,7 +15,7 @@
         Изменить
       </button>
 
-      <button mat-menu-item (click)="onDeleteProject(project.id)">
+      <button mat-menu-item (click)="onDeleteProject()">
         Удалить
       </button>
     </mat-menu>
@@ -25,19 +25,14 @@
 
   <mat-card-content class="list">
     <div *ngIf="project.todos.length > 0; else noTodos">
-<!--      <app-task-->
-<!--        *ngFor="let todo of project.todos"-->
-<!--        [todo]="todo"-->
-<!--        (check)="onCheckTodo($event)"-->
-<!--        (update)="onUpdateTodo($event)"-->
-<!--      ></app-task>-->
-
       <app-task
-        *ngFor="let todo of project.todos"
+        *ngFor="let todo of project.todos; trackBy: taskTrackBy"
+        [todo]="todo"
         (check)="onCheckTodo($event)"
         (update)="onUpdateTodo($event)"
       ></app-task>
     </div>
+
     <ng-template #noTodos>
       <div class="quiet">Нет задач в этом проекте</div>
     </ng-template>

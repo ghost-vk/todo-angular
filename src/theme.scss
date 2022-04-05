@@ -101,9 +101,42 @@ $md-blue: (
   )
 );
 
+$md-mcgpalette0: (
+        50 : #f8e4e4,
+        100 : #eebcbc,
+        200 : #e28f8f,
+        300 : #d66262,
+        400 : #ce4040,
+        500 : #c51e1e,
+        600 : #bf1a1a,
+        700 : #b81616,
+        800 : #b01212,
+        900 : #a30a0a,
+        A100 : #ffd0d0,
+        A200 : #ff9d9d,
+        A400 : #ff6a6a,
+        A700 : #ff5151,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #000000,
+                400 : #ffffff,
+                500 : #ffffff,
+                600 : #ffffff,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+                A100 : #000000,
+                A200 : #000000,
+                A400 : #000000,
+                A700 : #000000,
+        )
+);
+
 $my-app-primary: mat-palette($md-purplepallete);
 $my-app-accent:  mat-palette($md-blue);
-$my-app-warn:    mat-palette($md-light);
+$my-app-warn:    mat-palette($md-mcgpalette0);
 
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
 

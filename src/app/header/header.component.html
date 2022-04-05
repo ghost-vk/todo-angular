@@ -4,20 +4,27 @@
 
     <span class="example-spacer"></span>
 
-    <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
-      <mat-icon>add_box</mat-icon>
-    </button>
-
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="addTask()">
-        <mat-icon>task_alt</mat-icon>
-        <span>Задача</span>
+    <div *ngIf="authorized$ | async">
+      <button mat-mini-fab [matMenuTriggerFor]="menu" color="primary">
+        <mat-icon>menu</mat-icon>
       </button>
 
-      <button mat-menu-item (click)="addProject()">
-        <mat-icon>folder</mat-icon>
-        <span>Проект</span>
-      </button>
-    </mat-menu>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onAddTask()">
+          <mat-icon>task_alt</mat-icon>
+          <span>Создать задачу</span>
+        </button>
+
+        <button mat-menu-item (click)="onAddProject()">
+          <mat-icon>folder</mat-icon>
+          <span>Создать проект</span>
+        </button>
+
+        <button mat-menu-item (click)="onLogout()">
+          <mat-icon>logout</mat-icon>
+          <span>Выйти</span>
+        </button>
+      </mat-menu>
+    </div>
   </mat-toolbar>
 </header>

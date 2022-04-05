@@ -1,22 +1,29 @@
 <div class="app bg-primary">
-  <pre style="color:white">Values: {{ projects$ | async | json }}</pre>
 
-<!--  <app-header-->
-<!--    (dialogEvent)="openDialog($event)"-->
-<!--  ></app-header>-->
+  <app-header
+    (addTask)="openTodoDialog()"
+    (addProject)="openProjectDialog()"
+  ></app-header>
 
-<!--  <div class="main">-->
-<!--    <div class="card-wrapper">-->
-<!--      <app-card-->
-<!--        *ngFor="let project of projects"-->
-<!--        class="card"-->
-<!--        [project]="project"-->
-<!--        (updateTodo)="onCheckTodo($event)"-->
-<!--        (deleteProject)="deleteProject($event)"-->
-<!--        (addTask)="openDialog($event)"-->
-<!--        (editProject)="openDialog($event)"-->
-<!--        (updateTask)="openDialog($event)"-->
-<!--        ></app-card>-->
-<!--    </div>-->
-<!--  </div>-->
+  <div class="main">
+    <div *ngIf="authorized$ | async; else login" class="card-wrapper">
+      <div *ngIf="(projects$ | async)?.length === 0" class="no-projects">
+        Список проектов пуст
+      </div>
+
+      <app-card
+        *ngFor="let project of projects$ | async; trackBy: projectTrackBy"
+        class="card"
+        [project]="project"
+        (updateTodo)="openTodoDialog()"
+        (addTask)="openTodoDialog()"
+        (editProject)="openProjectDialog()"
+      ></app-card>
+    </div>
+
+    <ng-template #login>
+      <app-login></app-login>
+    </ng-template>
+  </div>
+
 </div>

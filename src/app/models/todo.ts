@@ -3,8 +3,12 @@ import { ITodo } from '../interfaces/todo'
 export class Todo {
   constructor(public todo: ITodo) { }
 
-  isCompleted() {
+  get isCompleted(): boolean {
     return this.todo.is_completed
+  }
+
+  set isCompleted(val: boolean) {
+    this.todo.is_completed = val
   }
 
   get text(): string {
@@ -13,10 +17,6 @@ export class Todo {
 
   set text(val: string) {
     this.todo.text = val
-  }
-
-  get project(): number {
-    return this.todo.id
   }
 
   get id(): number {

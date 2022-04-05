@@ -15,11 +15,7 @@ import { ITodoAddRequest } from "../interfaces/todo-add-request";
 import { ProjectRequest } from "../interfaces/project-request";
 import { CrudActionType } from "../interfaces/dialog";
 
-const BASE_URL = environment.production
-  ? 'https://todo-oblako-group.herokuapp.com'
-  : 'http://localhost:3000'
-
-// const headers = new HttpHeaders().set('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.0C1bI67LwtiXcxTbF8Rx3u4StxIF2cUKMdUa3oQqNiE')
+const BASE_URL = environment.baseUrl
 
 @Injectable({ providedIn: "root" })
 export class ProjectsService {
@@ -95,7 +91,6 @@ export class ProjectsService {
 
   fetchProjects() {
     this.httpClient.get<IProjectResponse[]>(`${BASE_URL}/projects`,
-      // { headers }
     )
       .subscribe((response: IProjectResponse[]) => {
         const projects: Project[] = plainToInstance(Project, response)
@@ -113,7 +108,6 @@ export class ProjectsService {
       .patch<ITodoResponse>(
       `${BASE_URL}/projects/${projectId}/todos/${updatedTodo.id}`,
       updatedTodo,
-      //{ headers }
       )
       .subscribe((response: ITodoResponse) => {
         const projects: Project[] = cloneDeep(this.projects.getValue())
@@ -132,7 +126,6 @@ export class ProjectsService {
     this.httpClient
       .post<ITodoResponse>(
         `${BASE_URL}/todos`, addedTodo,
-        // { headers }
       )
       .subscribe((response: ITodoResponse) => {
         const projects: Project[] = cloneDeep(this.projects.getValue())
@@ -156,7 +149,6 @@ export class ProjectsService {
     this.httpClient
       .delete<null>(
         `${BASE_URL}/projects/${projectId}/todos/${todoId}`,
-        // { headers }
       )
       .subscribe(() => {
         const projects: Project[] = cloneDeep(this.projects.getValue())
@@ -196,7 +188,6 @@ export class ProjectsService {
       .post<IProjectResponse>(
         `${BASE_URL}/projects`,
         { project: request },
-        // { headers }
       )
   }
 
@@ -204,7 +195,6 @@ export class ProjectsService {
     return this.httpClient
       .delete<null>(
         `${BASE_URL}/projects/${projectId}`,
-        // { headers }
       )
       .subscribe(() => {
         const projects: Project[] = cloneDeep(this.projects.getValue())
@@ -222,7 +212,6 @@ export class ProjectsService {
       .patch<IProjectResponse>(
         `${BASE_URL}/projects/${projectId}`,
         edited,
-        // { headers }
       )
       .subscribe((res: IProjectResponse) => {
         const projects: Project[] = cloneDeep(this.projects.getValue())

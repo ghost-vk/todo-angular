@@ -5,9 +5,7 @@ import { ILoginResponse } from "../interfaces/login-response";
 import { environment } from "../../environments/environment";
 import { IRegisterResponse } from "../interfaces/register-response";
 
-const BASE_URL = environment.production
-  ? 'https://todo-oblako-group.herokuapp.com'
-  : 'http://localhost:3000'
+const BASE_URL = environment.baseUrl
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
